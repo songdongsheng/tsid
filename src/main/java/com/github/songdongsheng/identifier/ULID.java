@@ -4,9 +4,9 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
 /**
- * Why another wheel ? Because this implementation use ThreadLocal to speed up in the multi-thread environment !
- * 48 bit UNIX-time in milliseconds + 80 bit entropy
- * See: https://github.com/alizain/ulid
+ * Why another wheel ? Because this implementation use {@link ThreadLocal} to speed up in the multi-thread environment !
+ *
+ * <p>See <a href="https://github.com/alizain/ulid"> <i>https://github.com/alizain/ulid</i></a> for more details.</p>
  */
 public final class ULID {
     private static final ThreadLocal<ThreadLocalCache> threadCache =
@@ -15,7 +15,7 @@ public final class ULID {
             '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
             'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K',
             'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'V', 'W', 'X',
-            'Y', 'Z',
+            'Y', 'Z'
     };
 
     private ULID() {

@@ -19,6 +19,9 @@ Original idea borrowed from [JS](https://github.com/alizain/ulid).
 [ThreadLocal](http://docs.oracle.com/javase/8/docs/api/java/lang/ThreadLocal.html)
 to gain a huge speed up in the multi-thread environment !**
 
+## TSID
+This is the shorten version of ULID. The entropy reduced from 80 bit to 48 bit.
+
 # Performance
 ## 1 thread
 
