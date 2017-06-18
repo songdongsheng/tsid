@@ -1,0 +1,13 @@
+# Tell Git not to attempt any end-of-line conversion upon checkin or checkout.
+# *               -text
+
+*.jar           binary
+
+*.cmd           text eol=crlf
+
+.*              text eol=lf
+*.java          text eol=lf
+*.md            text eol=lf
+*.xml           text eol=lf
+
+LICENSE         text eol=lf
