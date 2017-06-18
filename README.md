@@ -13,8 +13,11 @@ do not refuse to generate new id, use the next ms instead.
 ## ULID
 Universally Unique Lexicographically Sortable Identifier ported to Java.
 
-Original idea borrowed from [JS](https://github.com/alizain/ulid)
-Why another wheel ? Because this implementation use ThreadLocal to speed up in the multi-thread environment !
+Original idea borrowed from [JS](https://github.com/alizain/ulid).
+
+**Why another wheel ? Because this implementation use
+[ThreadLocal](http://docs.oracle.com/javase/8/docs/api/java/lang/ThreadLocal.html)
+to gain a huge speed up in the multi-thread environment !**
 
 # Performance
 ## 1 thread
