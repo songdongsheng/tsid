@@ -125,12 +125,26 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
         <version>${maven.javadoc.version}</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
 
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-source-plugin</artifactId>
         <version>${maven.source.version}</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>jar-no-fork</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
 
       <plugin>
@@ -138,19 +152,19 @@
         <version>${maven.dependency.version}</version>
         <executions>
           <execution>
-            <id>analyze-dep</id>
             <goals>
               <goal>analyze-dep-mgt</goal>
               <goal>analyze-duplicate</goal>
               <goal>analyze-only</goal>
-            </goals>
-          </execution>
-          <execution>
-            <id>copy-dependencies</id>
-            <phase>package</phase>
-            <goals>
               <goal>copy-dependencies</goal>
+              <goal>tree</goal>
             </goals>
+            <configuration>
+              <ignoredDependencies>
+                <ignoredDependency>org.openjdk.jmh:jmh-core</ignoredDependency>
+                <ignoredDependency>org.openjdk.jmh:jmh-generator-annprocess</ignoredDependency>
+              </ignoredDependencies>
+            </configuration>
           </execution>
         </executions>
       </plugin>
