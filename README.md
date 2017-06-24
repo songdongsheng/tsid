@@ -22,6 +22,18 @@ to gain a huge speed up in the multi-thread environment !**
 ## TSID
 This is the shorten version of ULID. The entropy reduced from 80 bit to 48 bit.
 
+# Maven dependency
+You can also integrate TSID with your project by adding it as a dependency. TSID is hosted on maven central.
+Here's the maven snippet to include in your `pom.xml`:
+
+```xml
+<dependency>
+    <groupId>com.github.songdongsheng</groupId>
+    <artifactId>identifier</artifactId>
+    <version>1.0.0</version>
+</dependency>
+```
+
 # Performance
 ## 1 thread
 
