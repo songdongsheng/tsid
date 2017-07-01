@@ -49,6 +49,7 @@
         https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-jar-plugin/maven-metadata.xml
         https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-javadoc-plugin/maven-metadata.xml
         https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-jxr-plugin/maven-metadata.xml
+        https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-pmd-plugin/maven-metadata.xml
         https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-project-info-reports-plugin/maven-metadata.xml
         https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-release-plugin/maven-metadata.xml
         https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-shade-plugin/maven-metadata.xml
