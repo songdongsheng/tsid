@@ -13,8 +13,8 @@ public final class Snowflake {
             'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'V', 'W', 'X',
             'Y', 'Z',
     };
-    private final ThreadLocal<ThreadLocalCache> threadCache =
-            ThreadLocal.withInitial(ThreadLocalCache::new);
+    private final ThreadLocal<ThreadLocalHolder> threadLocalHolder =
+            ThreadLocal.withInitial(ThreadLocalHolder::new);
     private final int shiftId;
     private final Object idLock = new Object();
     private int sequenceId;
@@ -65,8 +65,8 @@ public final class Snowflake {
      * @return The next ID
      */
     public String next() {
-        ThreadLocalCache localCache = threadCache.get();
-        char[] ids = localCache.ids;
+        ThreadLocalHolder threadLocal = threadLocalHolder.get();
+        char[] ids = threadLocal.ids;
         long id = nextLong();
         ids[0] = ENCODING_CHARS[(int) (id >> 59) & 0x1F];
         ids[1] = ENCODING_CHARS[(int) (id >> 54) & 0x1F];
@@ -85,10 +85,10 @@ public final class Snowflake {
         return new String(ids);
     }
 
-    private static final class ThreadLocalCache {
+    private static final class ThreadLocalHolder{
         final char[] ids;
 
-        ThreadLocalCache() {
+        ThreadLocalHolder() {
             ids = new char[13];
         }
     }

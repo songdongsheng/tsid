@@ -4,15 +4,15 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
 public class RandomUUID {
-    private static final ThreadLocal<ThreadLocalCache> threadCache =
-            ThreadLocal.withInitial(ThreadLocalCache::new);
+    private static final ThreadLocal<ThreadLocalHolder> threadLocalHolder =
+            ThreadLocal.withInitial(ThreadLocalHolder::new);
 
     // 124 bit entropy
     public static String next() {
-        ThreadLocalCache localCache = threadCache.get();
-        byte[] buf = localCache.buf;
-        char[] base32 = localCache.base32;
-        localCache.random.nextBytes(buf);
+        ThreadLocalHolder threadLocal = threadLocalHolder.get();
+        byte[] buf = threadLocal.buf;
+        char[] base32 = threadLocal.base32;
+        threadLocal.random.nextBytes(buf);
 
         buf[6] &= 0x0f;  /* clear version        */
         buf[6] |= 0x40;  /* set to version 4     */
@@ -31,12 +31,12 @@ public class RandomUUID {
  */
     }
 
-    private static class ThreadLocalCache {
+    private static class ThreadLocalHolder {
         final byte[] buf;
         final char[] base32;
         final SecureRandom random;
 
-        ThreadLocalCache() {
+        ThreadLocalHolder() {
             buf = new byte[16];
             base32 = new char[26];
             SecureRandom t;

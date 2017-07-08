@@ -9,8 +9,8 @@ import java.security.SecureRandom;
  * <p>See <a href="https://github.com/alizain/ulid"> <i>https://github.com/alizain/ulid</i></a> for more details.</p>
  */
 public final class ULID {
-    private static final ThreadLocal<ThreadLocalCache> threadCache =
-            ThreadLocal.withInitial(ThreadLocalCache::new);
+    private static final ThreadLocal<ThreadLocalHolder> threadLocalHolder =
+            ThreadLocal.withInitial(ThreadLocalHolder::new);
     private static final char[] ENCODING_CHARS = {
             '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
             'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K',
@@ -30,10 +30,10 @@ public final class ULID {
         long timeOffset = 1497571200000L; // date --date='TZ="UTC" 2017-06-16 00:00:00' +%s
         long ct = System.currentTimeMillis() - timeOffset;
 
-        ThreadLocalCache localCache = threadCache.get();
-        SecureRandom random = localCache.random;
-        byte[] entropy = localCache.entropy;
-        char[] ids = localCache.ids;
+        ThreadLocalHolder threadLocal = threadLocalHolder.get();
+        SecureRandom random = threadLocal.random;
+        byte[] entropy = threadLocal.entropy;
+        char[] ids = threadLocal.ids;
 
         random.nextBytes(entropy);
 
@@ -67,12 +67,12 @@ public final class ULID {
         return new String(ids);
     }
 
-    private final static class ThreadLocalCache {
+    private final static class ThreadLocalHolder {
         final byte[] entropy;
         final char[] ids;
         final SecureRandom random;
 
-        ThreadLocalCache() {
+        ThreadLocalHolder() {
             entropy = new byte[10];
             ids = new char[26];
             SecureRandom t;

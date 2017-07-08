@@ -7,8 +7,8 @@ import java.security.SecureRandom;
  * This is the shorten version of {@link ULID}.
  */
 public final class TrendSortedIdentifier {
-    private static final ThreadLocal<ThreadLocalCache> threadCache =
-            ThreadLocal.withInitial(ThreadLocalCache::new);
+    private static final ThreadLocal<ThreadLocalHolder> threadLocalHolder =
+            ThreadLocal.withInitial(ThreadLocalHolder::new);
     private static final char[] ENCODING_CHARS = {
             '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
             'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K',
@@ -28,10 +28,10 @@ public final class TrendSortedIdentifier {
         long timeOffset = 1497571200000L; // date --date='TZ="UTC" 2017-06-16 00:00:00' +%s
         long ct = System.currentTimeMillis() - timeOffset;
 
-        ThreadLocalCache localCache = threadCache.get();
-        SecureRandom random = localCache.random;
-        byte[] entropy = localCache.entropy;
-        char[] ids = localCache.ids;
+        ThreadLocalHolder threadLocal = threadLocalHolder.get();
+        SecureRandom random = threadLocal.random;
+        byte[] entropy = threadLocal.entropy;
+        char[] ids = threadLocal.ids;
 
         random.nextBytes(entropy);
 
@@ -59,12 +59,12 @@ public final class TrendSortedIdentifier {
         return new String(ids);
     }
 
-    private static final class ThreadLocalCache {
+    private static final class ThreadLocalHolder {
         final byte[] entropy;
         final char[] ids;
         final SecureRandom random;
 
-        ThreadLocalCache() {
+        ThreadLocalHolder() {
             entropy = new byte[6];
             ids = new char[20];
             SecureRandom t;
