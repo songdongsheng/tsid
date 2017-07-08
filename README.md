@@ -1,14 +1,17 @@
 # TSID
 A general-purpose trend sorted identifier generator.
 
-## Snowflake ID
-Snowflake is a network service for generating unique ID numbers at high scale with some simple guarantees.
+## Snowflake
+Snowflake is an identifier algorithm which can generate unique numbers at high scale with some simple guarantees.
 
-Original idea borrowed from [Snowflake](https://github.com/twitter/snowflake/releases/tag/snowflake-2010)
+The name borrowed from [Snowflake](https://github.com/twitter/snowflake/releases/tag/snowflake-2010).
 
 This is the modified version of the original snowflake algorithm.
 If clocks that run backwards or sequence ID run out of space,
 do not refuse to generate new id, use the next ms instead.
+
+Snowflake identifier can be long integer (1 bit 0 + 41 bit ms + 10 bit instanceId + 12 bit sequenceId),
+or encoded as 13 Crockford's base32 chars (42 bit ms + 10 bit instanceId + 12 bit sequenceId).
 
 ## ULID
 Universally Unique Lexicographically Sortable Identifier ported to Java.
@@ -19,8 +22,12 @@ Original idea borrowed from [JS](https://github.com/alizain/ulid).
 [ThreadLocal](http://docs.oracle.com/javase/8/docs/api/java/lang/ThreadLocal.html)
 to gain a huge speed up in the multi-thread environment !**
 
+ULID is 128-bit (48 bit ms + 80 bit entropy), encoded as 26 Crockford's base32 chars.
+
 ## TSID
 This is the shorten version of ULID. The entropy reduced from 80 bit to 48 bit.
+
+TSID is 96-bit (48 bit ms + 48 bit entropy), encoded as 20 Crockford's base32 chars.
 
 # Maven dependency
 You can also integrate TSID with your project by adding it as a dependency. TSID is hosted on maven central.
