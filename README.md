@@ -42,25 +42,36 @@ Here's the maven snippet to include in your `pom.xml`:
 ```
 
 # Performance
-## 1 thread
+## 1 thread (I7-6500U)
 
 |Benchmark              |Mode|Cnt|    Score    |    Error     |Units|
 |:----------------------|:-:|---:|------------:|-------------:|----:|
-|nextSnowflakeId        |thrpt|10| 32526759.846| ± 7446396.465|ops/s|
-|nextSnowflakeIdBase32  |thrpt|10| 17283116.454| ± 5779823.186|ops/s|
-|nextSnowflakeIdBase16  |thrpt|10| 12464730.154| ± 4296232.934|ops/s|
-|nextSortedUniqueId     |thrpt|10|  5525566.691| ±  929724.579|ops/s|
-|nextULID               |thrpt|10|  3057188.593| ± 1311610.996|ops/s|
-|nextJavaUUID           |thrpt|10|  2137815.039| ±  382973.452|ops/s|
-|nextThreadedUUID       |thrpt|10|  1847581.931| ±  707251.161|ops/s|
+|nextSnowflakeIdLong    |thrpt|10| 37889809.393| ± 3818256.904|ops/s|
+|nextSnowflakeId        |thrpt|10| 20895418.716| ±  296770.537|ops/s|
+|nextSnowflakeIdBase16  |thrpt|10| 17728656.802| ±  119036.211|ops/s|
+|nextTSID               |thrpt|10|  6198648.392| ±   69267.953|ops/s|
+|nextULID               |thrpt|10|  4215873.830| ±  115930.154|ops/s|
+|nextThreadedUUID       |thrpt|10|  2405839.744| ±    4128.545|ops/s|
+|nextJavaUUID           |thrpt|10|  2307956.152| ±  106999.002|ops/s|
 
-## 2 threads
+## 2 threads (I7-6500U)
 |Benchmark              |Mode|Cnt|    Score    |    Error    |Units|
 |:----------------------|:-:|---:|------------:|------------:|----:|
-|nextSnowflakeIdBase32  |thrpt|10| 29156261.451| ± 928597.367|ops/s|
-|nextSnowflakeId        |thrpt|10| 26780872.759| ± 290810.751|ops/s|
-|nextSnowflakeIdBase16  |thrpt|10| 20749481.458| ± 397822.980|ops/s|
-|nextSortedUniqueId     |thrpt|10|  9065771.400| ± 369647.152|ops/s|
-|nextULID               |thrpt|10|  6805954.426| ± 345279.340|ops/s|
-|nextThreadedUUID       |thrpt|10|  3903993.339| ± 154745.819|ops/s|
-|nextJavaUUID           |thrpt|10|  1776990.259| ±  36216.792|ops/s|
+|nextSnowflakeId        |thrpt|10| 26874794.317| ± 410898.123|ops/s|
+|nextSnowflakeIdLong    |thrpt|10| 26108995.211| ± 312445.844|ops/s|
+|nextSnowflakeIdBase16  |thrpt|10| 23175405.109| ± 382143.361|ops/s|
+|nextTSID               |thrpt|10|  9832013.382| ± 286570.176|ops/s|
+|nextULID               |thrpt|10|  6535540.741| ± 335516.750|ops/s|
+|nextThreadedUUID       |thrpt|10|  3631016.865| ± 114069.848|ops/s|
+|nextJavaUUID           |thrpt|10|  1738730.072| ±  78055.197|ops/s|
+
+## 4 threads (I7-6500U)
+|Benchmark              |Mode|Cnt|    Score    |    Error    |Units|
+|:----------------------|:-:|---:|------------:|------------:|----:|
+|nextSnowflakeIdLong    |thrpt|10| 20683751.933| ± 158519.062|ops/s|
+|nextSnowflakeId        |thrpt|10| 14524354.037| ±1041060.201|ops/s|
+|nextTSID               |thrpt|10| 13584637.435| ±  93641.496|ops/s|
+|nextSnowflakeIdBase16  |thrpt|10| 12247658.228| ± 250014.781|ops/s|
+|nextULID               |thrpt|10|  9168675.125| ± 588524.947|ops/s|
+|nextThreadedUUID       |thrpt|10|  5185603.248| ±  73332.258|ops/s|
+|nextJavaUUID           |thrpt|10|  1566631.354| ±   3403.591|ops/s|
