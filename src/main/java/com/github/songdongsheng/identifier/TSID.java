@@ -6,7 +6,7 @@ import java.security.SecureRandom;
 /**
  * This is the shorten version of {@link ULID}.
  */
-public final class TrendSortedIdentifier {
+public final class TSID {
     private static final ThreadLocal<ThreadLocalHolder> threadLocalHolder =
             ThreadLocal.withInitial(ThreadLocalHolder::new);
     private static final char[] ENCODING_CHARS = {
@@ -16,7 +16,7 @@ public final class TrendSortedIdentifier {
             'Y', 'Z',
     };
 
-    private TrendSortedIdentifier() {
+    private TSID() {
     }
 
     /**

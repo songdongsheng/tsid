@@ -18,6 +18,7 @@ import java.util.concurrent.TimeUnit;
 @Measurement(iterations = 10, time = 1000, timeUnit = TimeUnit.MILLISECONDS)
 public class BenchmarkTest {
     private final Snowflake snowflake = new Snowflake(1);
+    private final static char[] hexTable = "0123456789ABCDEF".toCharArray();
 
     public static void main(String[] args)
             throws RunnerException {
@@ -31,13 +32,13 @@ public class BenchmarkTest {
 
     @Benchmark
     @BenchmarkMode(Mode.Throughput)
-    public long nextSnowflakeId() {
+    public long nextSnowflakeIdLong() {
         return snowflake.nextId();
     }
 
     @Benchmark
     @BenchmarkMode(Mode.Throughput)
-    public String nextSnowflakeIdBase32() {
+    public String nextSnowflakeId() {
         return snowflake.next();
     }
 
@@ -47,17 +48,15 @@ public class BenchmarkTest {
         long id = snowflake.nextId();
         char[] buf = new char[16];
         for (int i = 0; i < 16; i++) {
-            int index = (int) (id >>> (i << 2));
-            if (index < 10) buf[i] = (char) ('0' + index);
-            else buf[i] = (char) ('A' - 10 + index);
+            buf[i] = hexTable[0x0F & (int) (id >> (i << 2))];
         }
         return new String(buf);
     }
 
     @Benchmark
     @BenchmarkMode(Mode.Throughput)
-    public String nextSortedUniqueId() {
-        return TrendSortedIdentifier.next();
+    public String nextTSID() {
+        return TSID.next();
     }
 
     @Benchmark
@@ -82,7 +81,7 @@ public class BenchmarkTest {
             buf[i + 8] = (byte) (id >> (7 - i));
         }
 
-        return new String(CrockfordBase32.encode(buf, new char[26]));
+        return new String(CrockfordBase32Test.encode(buf, new char[26]));
     }
 
     @Benchmark

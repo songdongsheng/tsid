@@ -19,7 +19,7 @@ public class RandomUUID {
         buf[8] &= 0x3f;  /* clear variant        */
         buf[8] |= 0x80;  /* set to IETF variant  */
 
-        return new String(CrockfordBase32.encode(buf, base32));
+        return new String(CrockfordBase32Test.encode(buf, base32));
 /*
         long msb = 0;
         long lsb = 0;

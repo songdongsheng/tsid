@@ -17,7 +17,7 @@ public class IdentifierTest {
         }
 
         for (int i = 0; i < 10; i++) {
-            String id = TrendSortedIdentifier.next();
+            String id = TSID.next();
             System.out.println(String.format("TSID: %s", id));
         }
 
