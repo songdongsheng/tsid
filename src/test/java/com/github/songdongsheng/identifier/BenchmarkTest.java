@@ -55,8 +55,20 @@ public class BenchmarkTest {
 
     @Benchmark
     @BenchmarkMode(Mode.Throughput)
+    public String nextTSID80() {
+        return TSID80.next();
+    }
+
+    @Benchmark
+    @BenchmarkMode(Mode.Throughput)
     public String nextTSID() {
         return TSID.next();
+    }
+
+    @Benchmark
+    @BenchmarkMode(Mode.Throughput)
+    public String nextTSID120() {
+        return TSID120.next();
     }
 
     @Benchmark

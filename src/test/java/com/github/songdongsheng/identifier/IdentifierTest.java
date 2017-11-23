@@ -17,8 +17,18 @@ public class IdentifierTest {
         }
 
         for (int i = 0; i < 10; i++) {
+            String id = TSID80.next();
+            System.out.println(String.format("TSID80: %s", id));
+        }
+
+        for (int i = 0; i < 10; i++) {
             String id = TSID.next();
             System.out.println(String.format("TSID: %s", id));
+        }
+
+        for (int i = 0; i < 10; i++) {
+            String id = TSID120.next();
+            System.out.println(String.format("TSID120: %s", id));
         }
 
         for (int i = 0; i < 10; i++) {

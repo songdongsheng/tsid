@@ -46,9 +46,6 @@ public class SortedBase64 {
      */
     public static class Encoder {
 
-        private Encoder() {
-        }
-
         /**
          * This array is a lookup table that translates 6-bit positive integer
          * index values into their "Sorted Base64 Alphabet".
@@ -61,8 +58,7 @@ public class SortedBase64 {
                 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'
         };
 
-        private static int outLength(int srcLen) {
-            return (srcLen * 8 + 5) / 6;
+        private Encoder() {
         }
 
         /**
@@ -73,6 +69,10 @@ public class SortedBase64 {
             byte[] encoded = new byte[outLength(src.length)];
             encode(src, 0, encoded, 0, src.length);
             return new String(encoded, 0, encoded.length, StandardCharsets.ISO_8859_1);
+        }
+
+        private static int outLength(int srcLen) {
+            return (srcLen * 8 + 5) / 6;
         }
 
         /**
@@ -120,14 +120,11 @@ public class SortedBase64 {
     /**
      * This class implements a decoder for decoding byte data using the
      * Sorted Base64 {@link SortedBase64} encoding scheme.
-     *
+     * <p>
      * <p> Instances of {@link Decoder} class are safe for use by
      * multiple concurrent threads.
      */
     public static class Decoder {
-
-        private Decoder() {
-        }
 
         /**
          * Lookup table for decoding unicode characters drawn from the
@@ -143,8 +140,7 @@ public class SortedBase64 {
                 fromSortedBase64[SortedBase64.Encoder.toSortedBase64[i]] = i;
         }
 
-        private static int outLength(int srcLen) {
-            return (srcLen * 6) / 8;
+        private Decoder() {
         }
 
         /**
@@ -159,6 +155,10 @@ public class SortedBase64 {
                 dst = Arrays.copyOf(dst, ret);
             }
             return dst;
+        }
+
+        private static int outLength(int srcLen) {
+            return (srcLen * 6) / 8;
         }
 
         /**

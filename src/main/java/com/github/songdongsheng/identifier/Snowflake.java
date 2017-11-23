@@ -29,6 +29,15 @@ public final class Snowflake {
         this.shiftId = (0x3FF & id) << 12;
     }
 
+    /**
+     * Returns the next ID (1 bit 0 + 41 bit ms + 10 bit instanceId + 12 bit sequenceId).
+     *
+     * @return The next ID
+     */
+    public long nextId() {
+        return nextLong() & Long.MAX_VALUE;
+    }
+
     private long nextLong() {
         long timeOffset = 1497571200000L; // date --date='TZ="UTC" 2017-06-16 00:00:00' +%s
         long ct = System.currentTimeMillis() - timeOffset;
@@ -48,15 +57,6 @@ public final class Snowflake {
         }
 
         return (ct << 22) | shiftId | (0xFFF & cid);
-    }
-
-    /**
-     * Returns the next ID (1 bit 0 + 41 bit ms + 10 bit instanceId + 12 bit sequenceId).
-     *
-     * @return The next ID
-     */
-    public long nextId() {
-        return nextLong() & Long.MAX_VALUE;
     }
 
     /**
@@ -85,7 +85,7 @@ public final class Snowflake {
         return new String(ids);
     }
 
-    private static final class ThreadLocalHolder{
+    private static final class ThreadLocalHolder {
         final char[] ids;
 
         ThreadLocalHolder() {

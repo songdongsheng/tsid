@@ -24,10 +24,20 @@ to gain a huge speed up in the multi-thread environment !**
 
 ULID is 128-bit (48 bit ms + 80 bit entropy), encoded as 26 Crockford's base32 chars.
 
-## TSID
-This is the shorten version of ULID. The entropy reduced from 80 bit to 48 bit.
+## TSID80
+This is the shorten version of ULID.
 
-TSID is 96-bit (48 bit ms + 48 bit entropy), encoded as 20 Crockford's base32 chars.
+TSID80 is 80-bit (48 bit ms + 32 bit entropy), encoded as 16 Crockford's base32 chars.
+
+## TSID
+This is the variant version of ULID.
+
+TSID is 100-bit (58 bit us + 42 bit entropy), encoded as 20 Crockford's base32 chars.
+
+## TSID120
+This is the longer variant version of ULID.
+
+TSID120 is 120-bit (58 bit us + 62 bit entropy), encoded as 24 Crockford's base32 chars.
 
 # Maven dependency
 You can also integrate TSID with your project by adding it as a dependency. TSID is hosted on maven central.
@@ -37,7 +47,7 @@ Here's the maven snippet to include in your `pom.xml`:
 <dependency>
     <groupId>com.github.songdongsheng</groupId>
     <artifactId>identifier</artifactId>
-    <version>1.0.0</version>
+    <version>2.0.0</version>
 </dependency>
 ```
 
