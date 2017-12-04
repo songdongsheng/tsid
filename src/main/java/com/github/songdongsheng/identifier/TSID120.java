@@ -34,7 +34,22 @@ public final class TSID120 {
         byte[] entropy = threadLocal.entropy;
         char[] ids = threadLocal.ids;
 
-        random.nextBytes(entropy);
+        if (ct <= threadLocal.lastTimestamp) {
+            int nh = ((entropy[7] & 0xFF) << 24) | ((entropy[6] & 0xFF) << 16) | ((entropy[5] & 0xFF) << 8) | (entropy[4] & 0xFF);
+            int nl = ((entropy[3] & 0xFF) << 24) | ((entropy[2] & 0xFF) << 16) | ((entropy[1] & 0xFF) << 8) | (entropy[0] & 0xFF);
+            long n = (((long) nh) << 32 | (nl & 0xFFFFFFFFL)) + 1;
+            entropy[7] = (byte) (n >> 56);
+            entropy[6] = (byte) (n >> 48);
+            entropy[5] = (byte) (n >> 40);
+            entropy[4] = (byte) (n >> 32);
+            entropy[3] = (byte) (n >> 24);
+            entropy[2] = (byte) (n >> 16);
+            entropy[1] = (byte) (n >> 8);
+            entropy[0] = (byte) (n);
+        } else {
+            threadLocal.lastTimestamp = ct;
+            random.nextBytes(entropy);
+        }
 
         ids[0] = ENCODING_CHARS[(int) (ct >> 53) & 0x1F];
         ids[1] = ENCODING_CHARS[(int) (ct >> 48) & 0x1F];
@@ -65,6 +80,7 @@ public final class TSID120 {
     }
 
     private static final class ThreadLocalHolder {
+        long lastTimestamp;
         final byte[] entropy;
         final char[] ids;
         final SecureRandom random;
