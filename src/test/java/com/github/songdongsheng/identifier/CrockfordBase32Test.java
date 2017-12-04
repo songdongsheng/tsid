@@ -70,6 +70,112 @@ public class CrockfordBase32Test {
         return value;
     }
 
+    @Test
+    public void decodeTSID80Test() {
+        String[] ids = new String[] {"05G23VEEM987TBMF", "05G23VEEM98QTBMF", "05G23VEEM997TBMF", "05G23VEEM99QTBMF"};
+        for(int i = 0; i < ids.length; i++) {
+            ids[i] = TSID80.next();
+        }
+
+        for(String id: ids) {
+            byte[] value = decode(id.toCharArray());
+
+            // 80 bit = 48 bit ms + 32 bit entropy
+            long ct = ((long)(value[0] & 0xFF)) << 40 | ((long)(value[1] & 0xFF)) << 32 | ((long)(value[2] & 0xFF)) << 24 | (value[3] & 0xFF) << 16 | (value[4] & 0xFF) << 8 | (value[5] & 0xFF);
+            long entropy = 0xFFFFFFFFL & ((value[6] & 0xFF) << 24 | (value[7] & 0xFF) << 16 | (value[8] & 0xFF) << 8 | (value[9] & 0xFF));
+
+            System.out.printf("ct=%s, entropy=%s, id=%s\n", ct, entropy, id);
+        }
+    }
+
+    @Test
+    public void decodeTSIDTest() {
+        String[] ids = new String[4];
+        for(int i = 0; i < ids.length; i++) {
+            ids[i] = TSID.next();
+        }
+
+        for(String id: ids) {
+            byte[] value = decode(id.toCharArray());
+
+            // 100 bit = 58 bit us + 42 bit entropy
+            int nh = ((value[0] & 0xFF) << 24) | ((value[1] & 0xFF) << 16) | ((value[2] & 0xFF) << 8) | (value[3] & 0xFF);
+            int nl = ((value[4] & 0xFF) << 24) | ((value[5] & 0xFF) << 16) | ((value[6] & 0xFF) << 8) | (value[7] & 0xFF);
+            long n = (((long) nh) << 32 | (nl & 0xFFFFFFFFL));
+
+            long ct = n >>> 6;
+
+            long entropy = ((long)(value[7] & 0xFF)) << 40 | ((long)(value[8] & 0xFF)) << 32 | ((long)(value[9] & 0xFF)) << 24 | (value[10] & 0xFF) << 16 | (value[11] & 0xFF) << 8 | (value[12] & 0xFF);
+            entropy = (entropy >> 4) & 0x3FFFFFFFFFFL;
+
+            System.out.printf("ct=%s, entropy=%s, id=%s\n", ct, entropy, id);
+        }
+    }
+
+    @Test
+    public void decodeTSID120Test() {
+        String[] ids = new String[4];
+        for(int i = 0; i < ids.length; i++) {
+            ids[i] = TSID120.next();
+        }
+
+        for(String id: ids) {
+            byte[] value = decode(id.toCharArray());
+
+            // 120 bit = 58 bit us + 62 bit entropy
+            int nh = ((value[0] & 0xFF) << 24) | ((value[1] & 0xFF) << 16) | ((value[2] & 0xFF) << 8) | (value[3] & 0xFF);
+            int nl = ((value[4] & 0xFF) << 24) | ((value[5] & 0xFF) << 16) | ((value[6] & 0xFF) << 8) | (value[7] & 0xFF);
+            long n = (((long) nh) << 32 | (nl & 0xFFFFFFFFL));
+
+            long ct = n >>> 6;
+
+            long entropy = ((long)(value[7] & 0xFF)) << 56 | ((long)(value[8] & 0xFF)) << 48 | ((long)(value[9] & 0xFF)) << 40 | ((long)(value[10] & 0xFF)) << 32 | ((long)(value[11] & 0xFF)) << 24 | (value[12] & 0xFF) << 16 | (value[13] & 0xFF) << 8 | (value[14] & 0xFF);
+            entropy = (entropy << 2) >>> 2;
+
+            System.out.printf("ct=%s, entropy=%s, id=%s\n", ct, entropy, id);
+        }
+    }
+
+    private byte[] decode(char[] ids) {
+        if (ids == null || ids.length < 1) return new byte[0];
+        byte[] value = new byte[(ids.length * 5 + 7) >> 3];
+        int src = 0, dst = 0;
+        while (src + 8 <= ids.length) {
+            long b40 = DECODING_VALUES[ids[src]];
+            for(int i = 1; i < 8; i++) {
+                b40 = (b40 << 5) | DECODING_VALUES[ids[src + i]];
+            }
+            value[dst] = (byte) (b40 >> 32);
+            value[dst + 1] = (byte) (b40 >> 24);
+            value[dst + 2] = (byte) (b40 >> 16);
+            value[dst + 3] = (byte) (b40 >> 8);
+            value[dst + 4] = (byte) (b40);
+            src += 8;
+            dst += 5;
+        }
+
+        if (src >= ids.length) {
+            return value;
+        }
+
+        int bits = (ids.length - src) * 5;
+        long b40 = DECODING_VALUES[ids[src]];
+        while (++src < ids.length) {
+            b40 = (b40 << 5) | DECODING_VALUES[ids[src]];
+        }
+
+        b40 = b40 << (40 - bits);
+        int subtracter = 32;
+
+        while (bits > 0) {
+            value[dst++] = (byte) (b40 >> subtracter);
+            subtracter -= 8;
+            bits -= 8;
+        }
+
+        return value;
+    }
+
     static char[] encode(byte[] buf, char[] ids) {
         int value = 0, bit = 0, offset = 0, index = 0;
         while (true) {
