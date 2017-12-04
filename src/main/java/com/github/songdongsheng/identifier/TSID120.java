@@ -37,7 +37,7 @@ public final class TSID120 {
         if (ct <= threadLocal.lastTimestamp) {
             int nh = ((entropy[7] & 0xFF) << 24) | ((entropy[6] & 0xFF) << 16) | ((entropy[5] & 0xFF) << 8) | (entropy[4] & 0xFF);
             int nl = ((entropy[3] & 0xFF) << 24) | ((entropy[2] & 0xFF) << 16) | ((entropy[1] & 0xFF) << 8) | (entropy[0] & 0xFF);
-            long n = (((long) nh) << 32 | (nl & 0xFFFFFFFFL)) + 1;
+            long n = (((long) nh) << 32 | (nl & 0xFFFFFFFFL)) + (1 << 2);
             entropy[7] = (byte) (n >> 56);
             entropy[6] = (byte) (n >> 48);
             entropy[5] = (byte) (n >> 40);
@@ -62,19 +62,19 @@ public final class TSID120 {
         ids[8] = ENCODING_CHARS[(int) (ct >> 13) & 0x1F];
         ids[9] = ENCODING_CHARS[(int) (ct >> 8) & 0x1F];
         ids[10] = ENCODING_CHARS[(int) (ct >> 3) & 0x1F];
-        ids[11] = ENCODING_CHARS[((int) (ct) & 0x07) << 2 | ((entropy[0] >> 6) & 0x03)]; // 3 + 2
-        ids[12] = ENCODING_CHARS[(entropy[0] >> 1) & 0x1F]; // 5 + 0
-        ids[13] = ENCODING_CHARS[((entropy[0] & 0x01) << 4) | ((entropy[1] >> 4) & 0x0F)]; // 1 + 4
-        ids[14] = ENCODING_CHARS[((entropy[1] & 0x0F) << 1) | ((entropy[2] >> 7) & 0x01)]; // 4 + 1
-        ids[15] = ENCODING_CHARS[(entropy[2] >> 2) & 0x1F]; // 5 + 0
-        ids[16] = ENCODING_CHARS[((entropy[2] & 0x03) << 3) | (entropy[3] >> 5) & 0x07]; // 2 + 3
-        ids[17] = ENCODING_CHARS[entropy[3] & 0x1F]; // 5 + 0
-        ids[18] = ENCODING_CHARS[(entropy[4] >> 3) & 0x1F]; // 5 + 0
-        ids[19] = ENCODING_CHARS[((entropy[4] & 0x07) << 2) | ((entropy[5] >> 6) & 0x03)]; // 3 + 2
-        ids[20] = ENCODING_CHARS[(entropy[5] >> 1) & 0x1F]; // 5 + 0
-        ids[21] = ENCODING_CHARS[(entropy[5] & 0x01) << 4 | ((entropy[6] >> 4) & 0x0F)]; // 1 + 4
-        ids[22] = ENCODING_CHARS[((entropy[6] & 0x0F) << 1) | ((entropy[7] >> 7) & 0x01)]; // 4 + 1
-        ids[23] = ENCODING_CHARS[(entropy[7] >> 2) & 0x1F]; // 5 + 0
+        ids[11] = ENCODING_CHARS[((int) (ct) & 0x07) << 2 | ((entropy[7] >> 6) & 0x03)]; // 3 + 2
+        ids[12] = ENCODING_CHARS[(entropy[7] >> 1) & 0x1F]; // 5 + 0
+        ids[13] = ENCODING_CHARS[((entropy[7] & 0x01) << 4) | ((entropy[6] >> 4) & 0x0F)]; // 1 + 4
+        ids[14] = ENCODING_CHARS[((entropy[5] & 0x0F) << 1) | ((entropy[5] >> 7) & 0x01)]; // 4 + 1
+        ids[15] = ENCODING_CHARS[(entropy[5] >> 2) & 0x1F]; // 5 + 0
+        ids[16] = ENCODING_CHARS[((entropy[5] & 0x03) << 3) | (entropy[4] >> 5) & 0x07]; // 2 + 3
+        ids[17] = ENCODING_CHARS[entropy[4] & 0x1F]; // 5 + 0
+        ids[18] = ENCODING_CHARS[(entropy[3] >> 3) & 0x1F]; // 5 + 0
+        ids[19] = ENCODING_CHARS[((entropy[3] & 0x07) << 2) | ((entropy[2] >> 6) & 0x03)]; // 3 + 2
+        ids[20] = ENCODING_CHARS[(entropy[2] >> 1) & 0x1F]; // 5 + 0
+        ids[21] = ENCODING_CHARS[(entropy[2] & 0x01) << 4 | ((entropy[1] >> 4) & 0x0F)]; // 1 + 4
+        ids[22] = ENCODING_CHARS[((entropy[1] & 0x0F) << 1) | ((entropy[0] >> 7) & 0x01)]; // 4 + 1
+        ids[23] = ENCODING_CHARS[(entropy[0] >> 2) & 0x1F]; // 5 + 0
 
         return new String(ids);
     }
