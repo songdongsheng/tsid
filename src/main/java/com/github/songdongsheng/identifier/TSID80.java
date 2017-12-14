@@ -42,6 +42,7 @@ public final class TSID80 {
             entropy[2] = (byte) (n >> 16);
             entropy[1] = (byte) (n >> 8);
             entropy[0] = (byte) (n);
+            ct = threadLocal.lastTimestamp;
         } else {
             threadLocal.lastTimestamp = ct;
             random.nextBytes(entropy);

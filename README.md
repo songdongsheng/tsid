@@ -47,7 +47,7 @@ Here's the maven snippet to include in your `pom.xml`:
 <dependency>
     <groupId>com.github.songdongsheng</groupId>
     <artifactId>identifier</artifactId>
-    <version>2.2.0</version>
+    <version>2.3.0</version>
 </dependency>
 ```
 
